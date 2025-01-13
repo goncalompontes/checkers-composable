@@ -2,6 +2,10 @@ package isel.tds.checkers.ttt.model
 
 import kotlin.math.abs
 import kotlin.math.max
+import isel.tds.checkers.AppProperties
+
+val BOARD_SIZE = AppProperties.p.getProperty("BOARD_SIZE")?.toInt() ?: 8
+val BOARD_CELLS = BOARD_SIZE * BOARD_SIZE
 
 typealias Moves = List<Pair<Square, Square>>
 typealias Direction = Pair<Int, Int>

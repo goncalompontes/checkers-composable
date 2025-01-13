@@ -14,34 +14,32 @@ value class Name(private val value: String) {
 
 typealias GameStorage = Storage<Name, Game>
 
-open class Clash(val storage: GameStorage) {
+open class Clash(val storage: GameStorage)
 
-    fun joinOrStart(id: Name): Clash {
-        var team = TeamType.BLACK
-        val game = storage.read(id) ?: Game().also { storage.create(id, it); team = TeamType.WHITE }
-        return ClashRun(storage, game, id, team)
+fun Clash.joinOrStart(id: Name): Clash {
+    var team = TeamType.BLACK
+    val game = storage.read(id) ?: Game().also { storage.create(id, it); team = TeamType.WHITE }
+    return ClashRun(storage, game, id, team)
+}
+
+private fun Clash.runOper( oper: ClashRun.()-> Game): Clash {
+    check(this is ClashRun) { "Clash not started" }
+    return ClashRun(storage, oper(), id, player)
+}
+
+fun Clash.refresh() = runOper {
+    (storage.read(id) as Game).also { check(game != it) }
+}
+
+fun Clash.newBoard() = runOper {
+    Game().also { storage.update(id,it) }
+}
+
+fun Clash.play(from: Square, to: Square) = runOper {
+    game.play(from, to).also {
+        //check(player==(game.board as Board.BoardRun).turn.team) { "Not your turn" }
+        storage.update(id,it)
     }
-
-    private fun runOper( oper: ClashRun.()-> Game): Clash {
-        check(this is ClashRun) { "Clash not started" }
-        return ClashRun(storage, oper(), id, player)
-    }
-
-    fun refresh() = runOper {
-        (storage.read(id) as Game).also { check(game != it) }
-    }
-
-    fun newBoard() = runOper {
-        Game().also { storage.update(id,it) }
-    }
-
-    fun play(from: Square, to: Square) = runOper {
-        game.play(from, to).also {
-            //check(player==(game.board as Board.BoardRun).turn.team) { "Not your turn" }
-            storage.update(id,it)
-        }
-    }
-
 }
 
 class ClashRun(
@@ -51,5 +49,8 @@ class ClashRun(
     val player: TeamType
 ) : Clash(st)
 
+class NoChangesException : IllegalStateException("No changes")
+class GameDeletedException : IllegalStateException("Game deleted")
 
+fun Clash.canNewBoard() = this is ClashRun && game.board is Board.BoardWin
 

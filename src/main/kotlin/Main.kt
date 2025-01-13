@@ -1,31 +1,23 @@
-import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.window.Window
-import androidx.compose.ui.window.application
+import isel.tds.checkers.storage.TextFileStorage
+import isel.tds.checkers.ttt.model.*
+import isel.tds.checkers.ttt.ui.*
 
-@Composable
-@Preview
-fun App() {
-    var text by remember { mutableStateOf("Hello, World!") }
-
-    MaterialTheme {
-        Button(onClick = {
-            text = "Hello, Desktop!"
-        }) {
-            Text(text)
+fun main() {
+    val storage = TextFileStorage<Name, Game>("games", GameSerializer)
+    var clash = Clash(storage)
+    val cmds = getCommands()
+    while (true) {
+        val (name, args) = readLineCommand()
+        val cmd = cmds[name]
+        if (cmd==null) println("Unknown command $name")
+        else try {
+            clash = cmd.execute(args,clash)
+            if( cmd.toTerminate ) break
+            clash.show()
+        } catch (e: IllegalStateException) {
+            println(e.message)
+        } catch (e: IllegalArgumentException) {
+            println("${e.message}. Use: $name ${cmd.syntaxArgs}")
         }
-    }
-}
-
-fun main() = application {
-    Window(onCloseRequest = ::exitApplication) {
-        App()
     }
 }

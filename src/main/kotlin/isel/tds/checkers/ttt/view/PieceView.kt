@@ -13,27 +13,29 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import isel.tds.checkers.ttt.model.Piece
 import isel.tds.checkers.ttt.model.Team
 import isel.tds.checkers.ttt.model.TeamType
 
 
 @Composable
-fun PlayerView (
+fun PieceView (
     size: Dp = 100.dp,
-    player: Team?,
+    piece: Piece?,
+    teamType: TeamType?,
     onClick: ()->Unit = {},
     modifier: Modifier = Modifier.size(size)
 ){
-    if(player == null){
+    if(piece == null){
         Box( modifier
             .clickable(onClick = onClick))
     }else{
-        val filename = when(player.team){
-            TeamType.WHITE -> ""
-            TeamType.BLACK -> ""
+        val filename = when(piece){
+            Piece.QUEEN -> if (teamType == TeamType.WHITE) "piece_wk" else "piece_bk"
+            Piece.PAWN -> if (teamType == TeamType.WHITE) "piece_w" else "piece_b"
         }
         Image(painter = painterResource("$filename.png"),
-            contentDescription = "Player $player $filename",
+            contentDescription = "Piece $teamType $piece $filename",
             modifier = modifier)
     }
 }
@@ -42,8 +44,10 @@ fun PlayerView (
 @Preview
 fun PlayerPreview(){
     Column( Modifier.background(Color.Black)) {
-        PlayerView(100.dp, null)
-        PlayerView(100.dp, Player.X)
-        PlayerView(50.dp, Player.O)
+        PieceView(100.dp, null, null)
+        PieceView(100.dp, Piece.PAWN, TeamType.BLACK)
+        PieceView(50.dp, Piece.QUEEN, TeamType.BLACK)
+        PieceView(100.dp, Piece.PAWN, TeamType.WHITE)
+        PieceView(50.dp, Piece.QUEEN, TeamType.WHITE)
     }
 }
