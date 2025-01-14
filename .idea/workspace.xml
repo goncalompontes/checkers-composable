@@ -5,47 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fce1ab59-e125-42e0-ae17-d1d5947241ab" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.run/desktop.run.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/isel/tds/checkers/AppProperties.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/isel/tds/checkers/Main.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/isel/tds/checkers/storage/MemoryStorage.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/isel/tds/checkers/storage/Serializer.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/isel/tds/checkers/storage/Storage.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/isel/tds/checkers/storage/TextFileStorage.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/isel/tds/checkers/ttt/model/Board.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/isel/tds/checkers/ttt/model/Clash.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/isel/tds/checkers/ttt/model/Column.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/isel/tds/checkers/ttt/model/Constants.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/isel/tds/checkers/ttt/model/Game.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/isel/tds/checkers/ttt/model/GameSerializer.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/isel/tds/checkers/ttt/model/Piece.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/isel/tds/checkers/ttt/model/Player.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/isel/tds/checkers/ttt/model/Row.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/isel/tds/checkers/ttt/model/Square.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/isel/tds/checkers/ttt/model/Team.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/isel/tds/checkers/ttt/ui/Command.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/isel/tds/checkers/ttt/ui/Input.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/isel/tds/checkers/ttt/ui/Output.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/isel/tds/checkers/ttt/view/GridView.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/isel/tds/checkers/ttt/view/PieceView.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/isel/tds/checkers/ttt/viewmodel/AppViewModel.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/piece_b.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/piece_bk.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/piece_w.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/piece_wk.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/isel/tds/checkers/ttt/view/StartOrJoin.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/isel/tds/checkers/ttt/view/StatusBar.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/isel/tds/checkers/ttt/viewmodel/AppViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/isel/tds/checkers/ttt/viewmodel/AppViewModel.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,18 +38,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Gradle.Build ComposeTest.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Download Sources.executor&quot;: &quot;Run&quot;,
-    &quot;Kotlin.MainKt.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/projects/isel/tds/ComposeTest/src/main/kotlin&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.Build ComposeTest.executor": "Run",
+    "Gradle.Download Sources.executor": "Run",
+    "Kotlin.MainKt.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "F:/projects/ISEL/2ano/TDS/checkers-composable",
+    "settings.editor.selected.configurable": "preferences.lookFeel"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\projects\isel\tds\ComposeTest\src\main\kotlin" />

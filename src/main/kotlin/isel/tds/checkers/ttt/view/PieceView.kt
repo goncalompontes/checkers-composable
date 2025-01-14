@@ -19,35 +19,24 @@ import isel.tds.checkers.ttt.model.TeamType
 
 
 @Composable
-fun PieceView (
+fun PieceView(
     size: Dp = 100.dp,
     piece: Piece?,
     teamType: TeamType?,
-    onClick: ()->Unit = {},
+    onClick: () -> Unit = {},
     modifier: Modifier = Modifier.size(size)
-){
-    if(piece == null){
-        Box( modifier
-            .clickable(onClick = onClick))
-    }else{
-        val filename = when(piece){
-            Piece.QUEEN -> if (teamType == TeamType.WHITE) "piece_wk" else "piece_bk"
-            Piece.PAWN -> if (teamType == TeamType.WHITE) "piece_w" else "piece_b"
+) {
+    Box(modifier.clickable(onClick = onClick)) {
+        if (piece != null) {
+            val filename = when (piece) {
+                Piece.QUEEN -> if (teamType == TeamType.WHITE) "piece_wk" else "piece_bk"
+                Piece.PAWN -> if (teamType == TeamType.WHITE) "piece_w" else "piece_b"
+            }
+            Image(
+                painter = painterResource("$filename.png"),
+                contentDescription = "Piece $teamType $piece $filename",
+                modifier = modifier
+            )
         }
-        Image(painter = painterResource("$filename.png"),
-            contentDescription = "Piece $teamType $piece $filename",
-            modifier = modifier)
-    }
-}
-
-@Composable
-@Preview
-fun PlayerPreview(){
-    Column( Modifier.background(Color.Black)) {
-        PieceView(100.dp, null, null)
-        PieceView(100.dp, Piece.PAWN, TeamType.BLACK)
-        PieceView(50.dp, Piece.QUEEN, TeamType.BLACK)
-        PieceView(100.dp, Piece.PAWN, TeamType.WHITE)
-        PieceView(50.dp, Piece.QUEEN, TeamType.WHITE)
     }
 }

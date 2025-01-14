@@ -4,11 +4,15 @@ import isel.tds.checkers.storage.Storage
 
 @JvmInline
 value class Name(private val value: String) {
-    init { require(isValid(value)) { "Invalid name" } }
+    init {
+        require(isValid(value)) { "Invalid name" }
+    }
+
     override fun toString() = value
+
     companion object {
         fun isValid(value: String) =
-            value.isNotEmpty() && value.all { it.isLetterOrDigit() } && value.none { it==' ' }
+            value.isNotEmpty() && value.all { it.isLetterOrDigit() } && value.none { it == ' ' }
     }
 }
 
@@ -22,7 +26,7 @@ fun Clash.joinOrStart(id: Name): Clash {
     return ClashRun(storage, game, id, team)
 }
 
-private fun Clash.runOper( oper: ClashRun.()-> Game): Clash {
+private fun Clash.runOper(oper: ClashRun.() -> Game): Clash {
     check(this is ClashRun) { "Clash not started" }
     return ClashRun(storage, oper(), id, player)
 }
@@ -32,13 +36,13 @@ fun Clash.refresh() = runOper {
 }
 
 fun Clash.newBoard() = runOper {
-    Game().also { storage.update(id,it) }
+    Game().also { storage.update(id, it) }
 }
 
 fun Clash.play(from: Square, to: Square) = runOper {
     game.play(from, to).also {
-        //check(player==(game.board as Board.BoardRun).turn.team) { "Not your turn" }
-        storage.update(id,it)
+        check(player == (game.board as Board.BoardRun).turn.team) { "Not your turn" }
+        storage.update(id, it)
     }
 }
 

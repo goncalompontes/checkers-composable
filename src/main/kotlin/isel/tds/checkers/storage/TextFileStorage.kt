@@ -12,38 +12,42 @@ import kotlin.io.path.*
  * @param baseFolderName the name of the folder where the files are stored.
  * @param serializer the serializer to convert data to text and vice-versa.
  */
-class TextFileStorage<Key, Data: Any>(
+class TextFileStorage<Key, Data : Any>(
     baseFolderName: String,
     private val serializer: Serializer<Data>
-): Storage<Key, Data> {
+) : Storage<Key, Data> {
     private val basePath = Path(baseFolderName)
+
     // Create base folder if it does not exist
     init {
         with(basePath) {
-            if (! exists()) createDirectory()
+            if (!exists()) createDirectory()
             else check(isDirectory()) { "$name is not a directory" }
         }
     }
 
-    private fun <T> withPath(key: Key, fx: Path.()->T): T =
+    private inline fun <T> with(key: Key, fx: Path.() -> T): T =
         (basePath / "$key.txt").fx()
 
-    override fun create(key: Key, data: Data) = withPath(key){
-        check(! exists()) { "File $key.txt already exists" }
-        writeText( serializer.serialize(data) )
+    override fun create(key: Key, data: Data) = with(key) {
+        check(!exists()) { "File $key exists" }
+        writeText(serializer.serialize(data))
     }
 
-    override fun read(key: Key): Data?  = withPath(key) {
-        try { serializer.deserialize(readText()) }
-        catch (e: NoSuchFileException) { null }
+    override fun read(key: Key): Data? = with(key) {
+        try {
+            serializer.deserialize(readText())
+        } catch (e: NoSuchFileException) {
+            null
+        }
     }
 
-    override fun update(key: Key, data: Data) = withPath(key){
-        check(exists()) { "File $key.txt not found" }
-        writeText( serializer.serialize(data) )
+    override fun update(key: Key, data: Data) = with(key) {
+        check(exists()) { "File $key does not exist" }
+        writeText(serializer.serialize(data))
     }
 
-    override fun delete(key: Key) = withPath(key){
-        check(deleteIfExists()) { "File $key.txt not found" }
+    override fun delete(key: Key) = with(key) {
+        check(deleteIfExists()) { "File $key does not exist" }
     }
 }

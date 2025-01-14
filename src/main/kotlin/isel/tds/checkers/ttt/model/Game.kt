@@ -14,4 +14,9 @@ data class Game (val board: Board) {
 
         return this.copy(board=newBoard)
     }
+
+    fun getPlays(from: Square): List<Square>? {
+        checkNotNull(board) { "No board" }
+        return board.getPlays(from)
+    }
 }

@@ -47,6 +47,28 @@ sealed class Board private constructor(val white: Team, val black: Team) {
         return move(from, to)
     }
 
+    fun getPlays(from: Square): List<Square>? {
+        check(this is BoardRun) { "Game is over" }
+
+        if (forceCaptureFrom != null && forceCaptureFrom != from) return null
+        if (from !in turn.pieces) return null
+
+        return getMoves(from)
+    }
+
+    private fun BoardRun.getMoves(from: Square): List<Square> {
+        val captures: Moves = getCaptures()
+
+        if (captures.isNotEmpty()) {
+            return captures
+                .mapNotNull { pair -> if (pair.first == from) pair.second else null }
+        } else {
+            val moves = from.getPossibleMoves(turn.pieces.getValue(from), turn.team)
+            return getMoves(moves, turn.pieces.getValue(from))
+                .mapNotNull { pair -> if (pair.first == from) pair.second else null}
+        }
+    }
+
     private fun BoardRun.move(from: Square, to: Square): Board {
         val captures: Moves = getCaptures()
         if (captures.isNotEmpty()) {
