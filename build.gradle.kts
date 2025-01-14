@@ -20,6 +20,8 @@ dependencies {
     // compose.desktop.currentOs should be used in launcher-sourceSet
     // (in a separate module for demo project and in testMain).
     // With compose.desktop.common you will also lose @Preview functionality
+    implementation("org.apache.logging.log4j:log4j-slf4j-impl:2.23.1")
+    implementation("org.mongodb:mongodb-driver-kotlin-sync:5.2.0")
     implementation(compose.desktop.currentOs)
 }
 

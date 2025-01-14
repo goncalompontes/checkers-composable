@@ -26,7 +26,7 @@ fun PieceView(
     onClick: () -> Unit = {},
     modifier: Modifier = Modifier.size(size)
 ) {
-    Box(modifier.clickable(onClick = onClick)) {
+    Box(Modifier.clickable(onClick = onClick).then(modifier)) {
         if (piece != null) {
             val filename = when (piece) {
                 Piece.QUEEN -> if (teamType == TeamType.WHITE) "piece_wk" else "piece_bk"

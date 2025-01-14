@@ -3,21 +3,26 @@ package isel.tds.checkers.ttt.viewmodel
 import androidx.compose.runtime.*
 import isel.tds.checkers.storage.TextFileStorage
 import isel.tds.checkers.ttt.model.*
-import isel.tds.checkers.ttt.view.InputName
+import isel.tds.galo.storage.MongoDriver
+import isel.tds.galo.storage.MongoStorage
 import kotlinx.coroutines.*
 
-class AppViewModel(val scope: CoroutineScope) {
+class AppViewModel(driver: MongoDriver, val scope: CoroutineScope) {
 
-    private val storage = TextFileStorage<Name, Game>("games", GameSerializer)
+    private val storage =
+        //TextFileStorage<Name, Game>("games", GameSerializer)
+        MongoStorage<Name, Game>("games", driver, GameSerializer)
 
     var clash by mutableStateOf(Clash(storage))
-    var inputName by mutableStateOf<InputName?>(null) //StartOrJoinDialog
+    var showStartJoinDialog by mutableStateOf(false) //StartOrJoinDialog
         private set                                   //  state
     var errorMessage by mutableStateOf<String?>(null) //ErrorDialog state
         private set
     var waitingJob by mutableStateOf<Job?>(null)
     var selectedSquare by mutableStateOf<Square?>(null)
     var possibleMoves by mutableStateOf<List<Square>?>(null)
+    var showTargets by mutableStateOf(true)
+    var autoRefresh by mutableStateOf(true)
 
     val isWaiting: Boolean get() = waitingJob != null
 
@@ -47,7 +52,8 @@ class AppViewModel(val scope: CoroutineScope) {
                 possibleMoves = null
             }
         }
-        waitForOtherSide()
+        if (autoRefresh)
+            waitForOtherSide()
     }
 
     fun getValidMoves(from: Square?): List<Square>? {
@@ -65,7 +71,7 @@ class AppViewModel(val scope: CoroutineScope) {
         if (turnAvailable) return
         waitingJob = scope.launch(Dispatchers.IO) {
             do {
-                delay(3000)
+                delay(100)
                 try {
                     clash = clash.refresh()
                 } catch (e: NoChangesException) { /* Ignore */
@@ -81,42 +87,37 @@ class AppViewModel(val scope: CoroutineScope) {
     fun refresh() = exec(Clash::refresh)
     fun newBoard(): Unit = exec(Clash::newBoard)
 
-    fun openStartDialog() {
-        inputName = InputName.ForStart
-    }
-
-    fun openJoinDialog() {
-        inputName = InputName.ForJoin
+    fun openStartOrJoinDialog() {
+        showStartJoinDialog = true
     }
 
     fun closeStartOrJoinDialog() {
-        inputName = null
+        showStartJoinDialog = false
     }
 
     fun joinOrStart(name: Name) {
         closeStartOrJoinDialog()
         exec { joinOrStart(name) }
-        waitForOtherSide()
+        if (autoRefresh)
+            waitForOtherSide()
     }
 
-    fun start(name: Name) {
-        closeStartOrJoinDialog()
-        exec { joinOrStart(name) }
-        waitForOtherSide()
-    }
-
-    fun join(name: Name) {
-        closeStartOrJoinDialog()
-        exec { joinOrStart(name) }
-        waitForOtherSide()
+    fun updateMoves() {
+        if (selectedSquare != null)
+            possibleMoves = board?.getPlays(selectedSquare as Square)
     }
 
     fun tryPlay(square: Square?, teamType: TeamType?) {
         if (!turnAvailable) return
-        
+
         if (square != null && isOwnSquare(square)) {
-            selectedSquare = square
-            possibleMoves = board?.getPlays(square)
+            if (selectedSquare == square) {
+                selectedSquare = null
+                possibleMoves = null
+            } else {
+                selectedSquare = square
+                possibleMoves = board?.getPlays(square)
+            }
         } else if (selectedSquare != null) {
             play(selectedSquare as Square, square as Square)
         }
@@ -128,5 +129,22 @@ class AppViewModel(val scope: CoroutineScope) {
 
     fun hideError() {
         errorMessage = null
+    }
+
+    fun enableShowTargets(enabled: Boolean) {
+        showTargets = enabled
+        if (!enabled)
+            possibleMoves = null
+        else
+            updateMoves()
+    }
+
+    fun enableAutoRefresh(enabled: Boolean) {
+        autoRefresh = enabled
+        if (!enabled) {
+            waitingJob?.cancel()
+        } else {
+            waitForOtherSide()
+        }
     }
 }

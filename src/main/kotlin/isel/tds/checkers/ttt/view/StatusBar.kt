@@ -14,25 +14,24 @@ import isel.tds.checkers.ttt.model.*
 
 @Composable
 fun StatusBar(board: Board?, you: TeamType?, name: Name?) {
-    Row(modifier = Modifier.width(GRID_WIDTH)
-        .background(Color.LightGray),
+    Row(
+        modifier = Modifier
+            .width(GRID_WIDTH + BORDER_SIZE.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
-    ){
+        horizontalArrangement = Arrangement.SpaceAround
+    ) {
         name?.let {
-            Text("Game:${name}", style = MaterialTheme.typography.h5)
-            Spacer(Modifier.width(30.dp))
+            Text("Game:${name}", style = MaterialTheme.typography.h6, color = Color.White)
         }
-        you?.let{
-            Text("You: ${you.name}", style = MaterialTheme.typography.h5)
-            Spacer(Modifier.width(30.dp))
+        you?.let {
+            Text("You: ${you.name}", style = MaterialTheme.typography.h6, color = Color.White)
         }
-        val text = when(board){
+        val text = when (board) {
             null -> "Start a new game"
             is Board.BoardRun -> if (you == board.turn.team) "Your turn" else "Waiting..."
             is Board.BoardWin -> "Winner: ${board.winner}"
             is Board.BoardDraw -> "Draw"
         }
-        Text(text, fontSize = 32.sp)
+        Text(text, style = MaterialTheme.typography.h6, color = Color.White)
     }
 }
