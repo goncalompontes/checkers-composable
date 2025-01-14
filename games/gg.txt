@@ -1,3 +1,0 @@
-WIN b
-w | 3a:p 1a:p 1c:p 1g:p 6f:Q 3c:p 7c:Q
-b | 
